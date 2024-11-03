@@ -5,51 +5,34 @@ import {
 } from "lucide-react"
 import { IoGitNetworkOutline } from "react-icons/io5";
 import { IoChevronDown } from "react-icons/io5";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuShortcut, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 
+const dropdownData = [
+    { name: "Data Provider" },
+    { name: "World Region" },
+    { name: "World Sub Region" },
+    { name: "Enter Company" },
+    { name: "Enter City" },
+]
+
+
 const Search = () => {
-    const dropdownData = [
-        {
-            name: "Data Provider",
-            icon: <IoGitNetworkOutline className="text-[#0A78CD]" />,
-            down: <IoChevronDown />
-        },
-        {
-            name: "World Region",
-            icon: <IoGitNetworkOutline className="text-[#0A78CD]" />,
-            down: <IoChevronDown />
-        },
-        {
-            name: "World Sub Region",
-            icon: <IoGitNetworkOutline className="text-[#0A78CD]" />,
-            down: <IoChevronDown />
-        },
-        {
-            name: "Enter Company",
-            icon: <IoGitNetworkOutline className="text-[#0A78CD]" />,
-            down: <IoChevronDown />
-        },
-        {
-            name: "Enter City",
-            icon: <IoGitNetworkOutline className="text-[#0A78CD]" />,
-            down: <IoChevronDown />
-        },
-    ]
+
     return (
         <div className='px-5 pt-4 pb-2 text-[#25245F] flex items-center justify-between'>
-            <h1 className='text-lg text-nowrap font-semibold'>Data Stewardship</h1>
-            <div className="flex items-center justify-center gap-4">
+            <h1 className='text-lg whitespace-nowrap font-semibold'>Data Stewardship</h1>
+            <div className="flex items-center gap-4">
                 {
                     dropdownData.map((data) => (
                         <DropdownMenu key={data.name} className="focus-visible:ring-transparent focus:outline-none">
-                            <DropdownMenuTrigger asChild>
+                            <DropdownMenuTrigger asChild className="focus-visible:ring-transparent">
                                 <Button className="bg-[#F9FAFB] hover:bg-[#fbfdfe] p-4 flex items-center text-[#66668F] font-normal justify-center gap-5 rounded-full">
-                                    <div className="flex items-center justify-center gap-2 text-xs">
-                                        {data.icon}
+                                    <div className="flex items-center gap-2 text-xs">
+                                        <IoGitNetworkOutline className="text-[#0A78CD]" />
                                         {data.name}
                                     </div>
-                                    {data.down}
+                                    <IoChevronDown />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="w-56">

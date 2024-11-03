@@ -1,7 +1,6 @@
-import React from 'react'
+import { Link } from 'react-router-dom'
 import logo from "../../assets/Logo.svg"
 import microsoft from "../../assets/Microsoft.svg"
-import { Link } from 'react-router-dom'
 
 const Login = () => {
     return (
