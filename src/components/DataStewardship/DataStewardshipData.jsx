@@ -1,7 +1,8 @@
-import { useState } from 'react'
-import DataStewardshipDataLeft from './DataStewardshipDataLeft'
-import DataStewardshipDataRight from './DataStewardshipDataRight'
+import { useState } from "react";
+import DataStewardshipDataLeft from "./DataStewardshipDataLeft";
+import DataStewardshipDataRight from "./DataStewardshipDataRight";
 
+// Sample data for data stewardship, each object represents a company record
 const stewardshipData = [
   {
     srcRecordId: 95877802,
@@ -53,23 +54,27 @@ const stewardshipData = [
   },
 ];
 
-
 const DataStewardshipData = () => {
-  const [selectedData, setSelectedData] = useState(null)
+  // State variable to hold the currently selected data
+  const [selectedData, setSelectedData] = useState(null);
 
+  // Function to handle selection of data item
   const handleSelectData = (id) => {
-    console.log("Selected data ID:", id);
-    const selectedItem = stewardshipData.find(item => item.id === id);
-    setSelectedData(selectedItem)
-
-  }
+    // console.log("Selected data ID:", id);
+    const selectedItem = stewardshipData.find((item) => item.id === id);
+    // Updating the state with the selected item
+    setSelectedData(selectedItem);
+  };
 
   return (
     <div className="w-full h-full flex justify-between px-5 py-4 gap-6">
-      <DataStewardshipDataLeft stewardshipData={stewardshipData} onSelectData={handleSelectData} />
+      <DataStewardshipDataLeft
+        stewardshipData={stewardshipData}
+        onSelectData={handleSelectData}
+      />
       <DataStewardshipDataRight selectedData={selectedData} />
     </div>
-  )
-}
+  );
+};
 
-export default DataStewardshipData
+export default DataStewardshipData;

@@ -14,7 +14,7 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
   const [expandedItems, setExpandedItems] = useState({});
   const [selectedId, setSelectedId] = useState(null);
 
-  // Toggle expand/collapse
+  // Function to toggle the expanded state of an item based on its ID
   const toggleExpand = (id) => {
     setExpandedItems((prev) => ({
       ...prev,
@@ -22,19 +22,21 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
     }));
   };
 
+  // Function to handle the selection of data items
   const handleSelectData = (id) => {
     // If the same item is selected again, unselect it
     if (selectedId === id) {
       setSelectedId(null);
       onSelectData(null); // Pass null to hide the data on the right side
     } else {
-      setSelectedId(id);
-      onSelectData(id);
+      setSelectedId(id); // Update the selected ID
+      onSelectData(id); // Pass the selected ID to the parent component
     }
   };
 
   return (
     <div className="bg-[#F9FAFB] rounded-3xl h-[79%] w-[42%] py-4 pb-3 px-4 overflow-y-auto">
+      {/* Header section with column titles */}
       <div className="flex items-center gap-7 text-sm">
         <div className="w-1/2 flex items-center">
           <p className="w-1/2 text-center pl-4">Markaaz ID</p>
@@ -46,23 +48,26 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
         </div>
         <div></div>
       </div>
+
+      {/* Mapping through the stewardship data to display each item */}
       {stewardshipData.map(
         ({ srcRecordId, id, companyName, address, phone, matchPercentage }) => (
           <div key={id} className="bg-white rounded-2xl p-3 my-2">
             <div className="text-[#66668F] flex text-xs justify-between px-1">
               <div className="w-1/2 pr-3 pl-1 gap-2 flex justify-between">
                 {expandedItems[id] ? (
+                  // If the item is expanded, show a remove icon
                   <IoRemoveOutline
                     onClick={() => toggleExpand(id)}
                     className="bg-[#e6f1fa] text-[#0A78CD] rounded-full shrink-0 p-1 text-3xl cursor-pointer"
                   />
                 ) : (
+                  // Otherwise, show an add icon
                   <IoAddOutline
                     onClick={() => toggleExpand(id)}
                     className="bg-[#e6f1fa] text-[#0A78CD] rounded-full shrink-0 p-1 text-3xl cursor-pointer"
                   />
                 )}
-                {/* <IoAddOutline className="bg-[#e6f1fa] text-[#0A78CD] rounded-full shrink-0 p-1 text-3xl cursor-pointer" /> */}
                 <div className="flex w-full font-light gap-5 justify-between">
                   <div className="w-1/2">
                     <p>{id}</p>
@@ -92,18 +97,22 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
                   </div>
                 </div>
               </div>
+
+              {/* Navigation icons for selecting or unselecting data */}
               {selectedId === id ? (
                 <IoChevronBackOutline
-                  onClick={() => handleSelectData(id)}
+                  onClick={() => handleSelectData(id)} // Go back if selected
                   className="bg-[#0A78CD] text-white p-1 rounded-full shrink-0 text-3xl cursor-pointer"
                 />
               ) : (
                 <IoChevronForwardOutline
-                  onClick={() => handleSelectData(id)}
+                  onClick={() => handleSelectData(id)} // Select if not selected
                   className="bg-[#f0f0f4] text-[#66668F] p-1 rounded-full shrink-0 text-3xl cursor-pointer"
                 />
               )}
             </div>
+
+            {/* Expanded details section, displayed if the item is expanded */}
             {expandedItems[id] && (
               <div className="bg-[#ECF5FB] rounded-xl mt-2 overflow-hidden">
                 <div className="bg-[#C8D3DB] p-3">
