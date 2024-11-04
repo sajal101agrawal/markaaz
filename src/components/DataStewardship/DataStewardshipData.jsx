@@ -52,6 +52,22 @@ const stewardshipData = [
     phone: "+1 2365986545",
     matchPercentage: "35%",
   },
+  {
+    srcRecordId: 63254127,
+    id: "A30000029564879",
+    companyName: "Casual Creations",
+    address: "315 Magellan Dr, Sarasota, FL 34243, USA",
+    phone: "+1 2365986545",
+    matchPercentage: "35%",
+  },
+  {
+    srcRecordId: 63254127,
+    id: "C90000029789452",
+    companyName: "Casual Creations",
+    address: "315 Magellan Dr, Sarasota, FL 34243, USA",
+    phone: "+1 2365986545",
+    matchPercentage: "35%",
+  },
 ];
 
 const DataStewardshipData = () => {

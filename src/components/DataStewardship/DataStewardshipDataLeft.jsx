@@ -9,6 +9,11 @@ import { LuPhone } from "react-icons/lu";
 import { useState } from "react";
 import ExpandedItemsButton from "../Buttons/ExpandedItemsButton";
 
+const expandedItemsData = [
+  { markaazId: "A30000029564879", expandSrcRecordId: 56487921, },
+  { markaazId: "C90000029789452", expandSrcRecordId: 98745021, },
+]
+
 const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
   // State to manage which items are expanded
   const [expandedItems, setExpandedItems] = useState({});
@@ -128,62 +133,51 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
                   </div>
                 </div>
 
-                <div className="p-3 border-b border-[#66668F33]">
-                  <div className="flex w-full font-light text-[#66668F] justify-between px-2 ">
-                    <div className="w-1/2 flex text-xs">
-                      <div className="w-1/2">
-                        <p>{id}</p>
-                        <p>Equifax</p>
-                      </div>
-                      <p className="w-1/2">{srcRecordId}</p>
-                    </div>
-                    <div className="w-1/2 flex text-xs">
-                      <div className="w-1/2 flex flex-col gap-2">
-                        <p>{companyName}</p>
-                        <div className="flex gap-1">
-                          <SlLocationPin className="shrink-0 text-base text-[#0A78CD] font-semibold" />
-                          {address}
+                {
+                  expandedItemsData.map((eItem) => (
+                    <div className="p-3 border-b border-[#66668F33]">
+                      <div className="flex w-full font-light text-[#66668F] justify-between px-2 ">
+                        <div className="w-1/2 flex text-xs">
+                          <div className="w-1/2">
+                            <p>{eItem.markaazId}</p>
+                            <p>Equifax</p>
+                          </div>
+                          <p className="w-1/2">{eItem.expandSrcRecordId}</p>
                         </div>
-                        <div className="flex gap-1">
-                          <LuPhone className="shrink-0 text-base text-[#0A78CD]" />
-                          {phone}
-                        </div>
-                      </div>
-                      <div className="w-1/2 flex flex-col justify-between pb-4">
-                        <p>{matchPercentage}</p>
-                        <ExpandedItemsButton />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-3">
-                  <div className="flex w-full font-light text-[#66668F] justify-between px-2 ">
-                    <div className="w-1/2 flex text-xs">
-                      <div className="w-1/2">
-                        <p>{id}</p>
-                        <p>Equifax</p>
-                      </div>
-                      <p className="w-1/2">{srcRecordId}</p>
-                    </div>
-                    <div className="w-1/2 flex text-xs">
-                      <div className="w-1/2 flex flex-col gap-2">
-                        <p>{companyName}</p>
-                        <div className="flex gap-1">
-                          <SlLocationPin className="shrink-0 text-base text-[#0A78CD] font-semibold" />
-                          {address}
-                        </div>
-                        <div className="flex gap-1">
-                          <LuPhone className="shrink-0 text-base text-[#0A78CD]" />
-                          {phone}
+                        <div className="w-1/2 flex text-xs">
+                          <div className="w-1/2 flex flex-col gap-2">
+                            <p>{companyName}</p>
+                            <div className="flex gap-1">
+                              <SlLocationPin className="shrink-0 text-base text-[#0A78CD] font-semibold" />
+                              {address}
+                            </div>
+                            <div className="flex gap-1">
+                              <LuPhone className="shrink-0 text-base text-[#0A78CD]" />
+                              {phone}
+                            </div>
+                          </div>
+                          <div className="w-1/2 flex flex-col justify-between gap-2 pb-4">
+                            <div className="flex w-full items-center justify-between">
+                              <p>{matchPercentage}</p>
+                              {selectedId === eItem.markaazId ? (
+                                <IoChevronBackOutline
+                                  onClick={() => handleSelectData(eItem.markaazId)} // Go back if selected
+                                  className="bg-[#0A78CD] text-white p-1 rounded-full shrink-0 text-3xl cursor-pointer"
+                                />
+                              ) : (
+                                <IoChevronForwardOutline
+                                  onClick={() => handleSelectData(eItem.markaazId)} // Select if not selected
+                                  className="bg-[#f0f0f4] text-[#66668F] p-1 rounded-full shrink-0 text-3xl cursor-pointer"
+                                />
+                              )}
+                            </div>
+                            <ExpandedItemsButton />
+                          </div>
                         </div>
                       </div>
-                      <div className="w-1/2 flex flex-col justify-between pb-4">
-                        <p>{matchPercentage}</p>
-                        <ExpandedItemsButton />
-                      </div>
                     </div>
-                  </div>
-                </div>
+                  ))
+                }
               </div>
             )}
           </div>
