@@ -2,7 +2,7 @@ import vector from "../../assets/Vector.svg";
 import {
   IoChevronForwardOutline,
   IoArrowBackOutline,
-  IoArrowForwardOutline,
+  IoArrowForwardOutline, 
 } from "react-icons/io5";
 import ExpandedItemsButton from "../Buttons/ExpandedItemsButton";
 
@@ -114,7 +114,7 @@ const DataStewardshipDataRight = ({ selectedData }) => {
             Alternative Names
           </h1>
           <div className="p-2 bg-white rounded-2xl w-full flex flex-col gap-2">
-            <div className="flex items-center text-sm px-4">
+            <div className="flex items-center text-xs px-4">
               <h2 className="w-[30%]">Name</h2>
               <h2 className="w-[20%]">Type</h2>
               <h2 className="w-[25%]">Start Date</h2>
