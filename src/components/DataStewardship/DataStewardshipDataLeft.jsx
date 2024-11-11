@@ -10,27 +10,23 @@ import { useState } from "react";
 import ExpandedItemsButton from "../Buttons/ExpandedItemsButton";
 
 const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
-  // State to manage which items are expanded
   const [expandedItems, setExpandedItems] = useState({});
   const [selectedId, setSelectedId] = useState(null);
 
-  // Function to toggle the expanded state of an item based on its ID
   const toggleExpand = (id) => {
     setExpandedItems((prev) => ({
       ...prev,
-      [id]: !prev[id], // Toggle the boolean value for the specific item
+      [id]: !prev[id],
     }));
   };
 
-  // Function to handle the selection of data items
   const handleSelectData = (id) => {
-    // If the same item is selected again, unselect it
     if (selectedId === id) {
       setSelectedId(null);
-      onSelectData(null); // Pass null to hide the data on the right side
+      onSelectData(null);
     } else {
-      setSelectedId(id); // Update the selected ID
-      onSelectData(id); // Pass the selected ID to the parent component
+      setSelectedId(id);
+      onSelectData(id);
     }
   };
 
@@ -40,7 +36,7 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
       <div className="flex items-center gap-7 text-sm">
         <div className="w-1/2 flex items-center">
           <p className="w-1/2 text-center pl-4">Markaaz ID</p>
-          <p className="w-1/2 text-right">SrcRecordid</p>
+          <p className="w-1/2 text-right">Source Record ID</p>
         </div>
         <div className="w-1/2 flex items-center">
           <p className="w-1/2 text-left">Company</p>
@@ -50,19 +46,28 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
       </div>
 
       {/* Mapping through the stewardship data to display each item */}
-      {stewardshipData.map(
-        ({ srcRecordId, id, companyName, address, phone, matchPercentage }) => (
+      {stewardshipData.map((item) => {
+        const {
+          id,
+          sourceRecordId,
+          companyName,
+          address,
+          phone,
+          matchPercentage,
+          dataSource,
+          matchesCount,
+        } = item;
+
+        return (
           <div key={id} className="bg-white rounded-2xl p-3 my-2">
             <div className="text-[#66668F] flex text-xs justify-between px-1">
               <div className="w-1/2 pr-3 pl-1 gap-2 flex justify-between">
                 {expandedItems[id] ? (
-                  // If the item is expanded, show a remove icon
                   <IoRemoveOutline
                     onClick={() => toggleExpand(id)}
                     className="bg-[#e6f1fa] text-[#0A78CD] rounded-full shrink-0 p-1 text-3xl cursor-pointer"
                   />
                 ) : (
-                  // Otherwise, show an add icon
                   <IoAddOutline
                     onClick={() => toggleExpand(id)}
                     className="bg-[#e6f1fa] text-[#0A78CD] rounded-full shrink-0 p-1 text-3xl cursor-pointer"
@@ -71,9 +76,9 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
                 <div className="flex w-full font-light gap-5 justify-between">
                   <div className="w-1/2">
                     <p>{id}</p>
-                    <p>Equifax</p>
+                    <p>{dataSource}</p>
                   </div>
-                  <p className="w-1/2 text-left">{srcRecordId}</p>
+                  <p className="w-1/2 text-left">{sourceRecordId}</p>
                 </div>
               </div>
               <div className="w-1/2 pr-3 pl-1 gap-2 flex justify-between">
@@ -84,13 +89,15 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
                       <SlLocationPin className="shrink-0 text-base text-[#0A78CD] font-semibold" />
                       {address}
                     </div>
-                    <div className="flex gap-1">
-                      <LuPhone className="shrink-0 text-base text-[#0A78CD]" />
-                      {phone}
-                    </div>
+                    {phone && (
+                      <div className="flex gap-1">
+                        <LuPhone className="shrink-0 text-base text-[#0A78CD]" />
+                        {phone}
+                      </div>
+                    )}
                   </div>
                   <div className="w-1/2 text-left h-full flex flex-col pb-3 justify-between">
-                    <p>Matches 1 (2)</p>
+                    <p>Matches {matchesCount}</p>
                     <button className="rounded-full w-fit py-2 px-4 bg-[#0A78CD] box-shadow text-white font-medium">
                       Reject
                     </button>
@@ -101,12 +108,12 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
               {/* Navigation icons for selecting or unselecting data */}
               {selectedId === id ? (
                 <IoChevronBackOutline
-                  onClick={() => handleSelectData(id)} // Go back if selected
+                  onClick={() => handleSelectData(id)}
                   className="bg-[#0A78CD] text-white p-1 rounded-full shrink-0 text-3xl cursor-pointer"
                 />
               ) : (
                 <IoChevronForwardOutline
-                  onClick={() => handleSelectData(id)} // Select if not selected
+                  onClick={() => handleSelectData(id)}
                   className="bg-[#f0f0f4] text-[#66668F] p-1 rounded-full shrink-0 text-3xl cursor-pointer"
                 />
               )}
@@ -119,7 +126,7 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
                   <div className="flex items-center w-full justify-between px-2 ">
                     <div className="w-1/2 flex items-center text-sm">
                       <p className="w-1/2">Markaaz ID</p>
-                      <p className="w-1/2">SrcRecordid</p>
+                      <p className="w-1/2">Source Record ID</p>
                     </div>
                     <div className="w-1/2 flex items-center text-sm">
                       <p className="w-1/2">Company</p>
@@ -133,9 +140,9 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
                     <div className="w-1/2 flex text-xs">
                       <div className="w-1/2">
                         <p>{id}</p>
-                        <p>Equifax</p>
+                        <p>{dataSource}</p>
                       </div>
-                      <p className="w-1/2">{srcRecordId}</p>
+                      <p className="w-1/2">{sourceRecordId}</p>
                     </div>
                     <div className="w-1/2 flex text-xs">
                       <div className="w-1/2 flex flex-col gap-2">
@@ -144,10 +151,12 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
                           <SlLocationPin className="shrink-0 text-base text-[#0A78CD] font-semibold" />
                           {address}
                         </div>
-                        <div className="flex gap-1">
-                          <LuPhone className="shrink-0 text-base text-[#0A78CD]" />
-                          {phone}
-                        </div>
+                        {phone && (
+                          <div className="flex gap-1">
+                            <LuPhone className="shrink-0 text-base text-[#0A78CD]" />
+                            {phone}
+                          </div>
+                        )}
                       </div>
                       <div className="w-1/2 flex flex-col justify-between pb-4">
                         <p>{matchPercentage}</p>
@@ -156,39 +165,12 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
                     </div>
                   </div>
                 </div>
-                <div className="p-3">
-                  <div className="flex w-full font-light text-[#66668F] justify-between px-2 ">
-                    <div className="w-1/2 flex text-xs">
-                      <div className="w-1/2">
-                        <p>{id}</p>
-                        <p>Equifax</p>
-                      </div>
-                      <p className="w-1/2">{srcRecordId}</p>
-                    </div>
-                    <div className="w-1/2 flex text-xs">
-                      <div className="w-1/2 flex flex-col gap-2">
-                        <p>{companyName}</p>
-                        <div className="flex gap-1">
-                          <SlLocationPin className="shrink-0 text-base text-[#0A78CD] font-semibold" />
-                          {address}
-                        </div>
-                        <div className="flex gap-1">
-                          <LuPhone className="shrink-0 text-base text-[#0A78CD]" />
-                          {phone}
-                        </div>
-                      </div>
-                      <div className="w-1/2 flex flex-col justify-between pb-4">
-                        <p>{matchPercentage}</p>
-                        <ExpandedItemsButton />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {/* Additional matched records can be added here */}
               </div>
             )}
           </div>
-        )
-      )}
+        );
+      })}
     </div>
   );
 };

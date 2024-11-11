@@ -6,32 +6,7 @@ import {
 } from "react-icons/io5";
 import ExpandedItemsButton from "../Buttons/ExpandedItemsButton";
 
-// Sample data representing field values associated with the selected data
-const fieldValuesData = [
-  { field: "EFXID", value: 101685097 },
-  { field: "EFX_NAME", value: "Credit Straegies" },
-  { field: "EFX_ADDRESS", value: "315 Magellan Dr, Sarasota" },
-  { field: "EFX_CITY", value: "Phoenix" },
-  { field: "EFX_STATE", value: "AZ" },
-  { field: "EFX_STATEC", value: 4 },
-  { field: "EFX_ZIPCODE", value: 85085 },
-  { field: "EFX_ZIP4", value: 6036 },
-  { field: "EFX_LAT", value: 33.786221 },
-  { field: "EFX_LON", value: -112.111908 },
-  { field: "EFX_GEOPREC", value: 255 },
-];
-
-// Sample data for company details
-const companyDetails = [
-  { field: "Company Number", value: "14230326" },
-  { field: "Jurisdiction code", value: "US_AZ" },
-  { field: "Name", value: "Online Credit Strategies Incorpated" },
-  { field: "Normalized name", value: "Online Credit Strategies Incorpated" },
-  { field: "Company type", value: "Domestic Close Corparation" },
-];
-
 const DataStewardshipDataRight = ({ selectedData }) => {
-  // If no data is selected, render a placeholder message
   if (!selectedData) {
     return (
       <div className="bg-[#F9FAFB] rounded-3xl h-[79%] w-[58%] flex flex-col items-center justify-center gap-6">
@@ -45,24 +20,46 @@ const DataStewardshipDataRight = ({ selectedData }) => {
     );
   }
 
-  // Render match details when there is selected data
+  // Extract fields from selected data
+  const { primaryData, matchData, dataSource, id } = selectedData;
+
+  // Determine data source prefix
+  let prefix = "";
+  if (dataSource === "EFX") {
+    prefix = "EFX_";
+  } else if (dataSource === "CS") {
+    prefix = "CS_";
+  } else if (dataSource === "OC") {
+    prefix = "OC_";
+  }
+
+  // Prepare field values data
+  const fieldValuesData = Object.keys(primaryData)
+    .filter((key) => key.startsWith(prefix))
+    .map((key) => ({
+      field: key,
+      value: primaryData[key],
+    }));
+
+  // Prepare company details (example fields)
+  const companyDetails = [
+    { field: "Company Number", value: primaryData[`${prefix}ID`] || "-" },
+    { field: "Name", value: primaryData[`${prefix}NAME`] || "-" },
+    { field: "Address", value: primaryData[`${prefix}ADDRESS`] || "-" },
+    { field: "City", value: primaryData[`${prefix}CITY`] || "-" },
+    { field: "Country", value: primaryData[`${prefix}CTRYNAME`] || "-" },
+    { field: "Postal Code", value: primaryData[`${prefix}ZIPCODE`] || "-" },
+  ];
+
   return (
     <div className="bg-[#F9FAFB] text-[#25245F] flex flex-col rounded-3xl h-[79%] w-[58%] px-5 py-4">
       <h1 className="font-medium">Match Details</h1>
       <div className="mt-1 mb-3 flex items-center justify-between">
         <div className="text-sm">
-          <p className="">EFX Source Information</p>
-          <p className="text-xs text-[#66668F] font-light">
-            Markaaz ID: {selectedData.id}
-          </p>
+          <p className="">Source Information</p>
+          <p className="text-xs text-[#66668F] font-light">Markaaz ID: {id}</p>
         </div>
         <div className="flex items-center gap-3">
-          <div className="text-sm">
-            <p>OC Source Information</p>
-            <p className="text-[#66668F] text-xs font-light">
-              Markaaz ID: {selectedData.id}
-            </p>
-          </div>
           <div className="text-sm">
             <ExpandedItemsButton />
           </div>
@@ -84,7 +81,7 @@ const DataStewardshipDataRight = ({ selectedData }) => {
           </div>
           {fieldValuesData.map((data) => (
             <div
-              key={data.field} // Adding a unique key for each item in the list
+              key={data.field}
               className="bg-[#F9FAFB] rounded-full w-full p-4 text-[#66668F] font-light flex items-center text-xs"
             >
               <p className="w-[40%]">{data.field}</p>
@@ -99,10 +96,9 @@ const DataStewardshipDataRight = ({ selectedData }) => {
               <h2 className="w-[60%]">Value</h2>
             </div>
 
-            
             {companyDetails.map((data) => (
               <div
-                key={data.field} // Adding a unique key for each item in the list
+                key={data.field}
                 className="bg-[#F9FAFB] rounded-full w-full p-4 text-[#66668F] font-light flex items-center text-xs"
               >
                 <p className="w-[40%]">{data.field}</p>
@@ -110,35 +106,7 @@ const DataStewardshipDataRight = ({ selectedData }) => {
               </div>
             ))}
           </div>
-          <h1 className="text-[#25245F] font-medium my-2 text-sm">
-            Alternative Names
-          </h1>
-          <div className="p-2 bg-white rounded-2xl w-full flex flex-col gap-2">
-            <div className="flex items-center text-sm px-4">
-              <h2 className="w-[30%]">Name</h2>
-              <h2 className="w-[20%]">Type</h2>
-              <h2 className="w-[25%]">Start Date</h2>
-              <h2 className="w-[25%]">End Date</h2>
-            </div>
-            <div className="bg-[#F9FAFB] rounded-full w-full p-4 text-[#66668F] font-light flex items-center text-xs">
-              <p className="w-[30%]">Jeanne Bernard</p>
-              <p className="w-[20%]">-</p>
-              <p className="w-[25%]">12 Oct 2024</p>
-              <p className="w-[25%]">12 Nov 2024</p>
-            </div>
-          </div>
-          <h1 className="text-[#25245F] font-medium mt-4 mb-2 text-sm">
-            Additional Identifiers
-          </h1>
-          <div className="bg-white rounded-2xl p-4 flex items-center justify-center text-xs font-light text-[#66668F]">
-            No Data Found
-          </div>
-          <h1 className="text-[#25245F] font-medium mt-4 mb-2 text-sm">
-            Non Registed Addresses
-          </h1>
-          <div className="bg-white rounded-2xl p-4 flex items-center justify-center text-xs font-light text-[#66668F]">
-            No Data Found
-          </div>
+          {/* Additional sections can be added here */}
         </div>
       </div>
     </div>
