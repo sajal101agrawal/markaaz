@@ -10,11 +10,11 @@ import { useState } from "react";
 import ExpandedItemsButton from "../Buttons/ExpandedItemsButton";
 
 const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
-  const [expandedId, setExpandedId] = useState(null)
+  const [expandedId, setExpandedId] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
 
-  const toggleExpand = (id) => {
-    setExpandedId((prev) => (prev === id ? null : id)); // Toggle the expanded item
+  const toggleExpand = (uniqueKey) => {
+    setExpandedId((prev) => (prev === uniqueKey ? null : uniqueKey));
   };
 
   const handleSelectData = (id) => {
@@ -26,9 +26,6 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
       onSelectData(id);
     }
   };
-
-
-
 
   return (
     <div className="bg-[#F9FAFB] rounded-3xl h-[79%] w-[42%] py-4 pb-3 px-4 overflow-y-auto">
@@ -46,7 +43,7 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
       </div>
 
       {/* Mapping through the stewardship data to display each item */}
-      {stewardshipData.map((item) => {
+      {stewardshipData.map((item, index) => {
         const {
           id,
           matchId,
@@ -61,20 +58,21 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
           matchesCount,
         } = item;
 
-
+        const uniqueKey = `${id}-${index}`
+        console.log(uniqueKey)
 
         return (
-          <div className="bg-white rounded-2xl p-3 my-2">
+          <div key={uniqueKey} className="bg-white rounded-2xl p-3 my-2">
             <div className="text-[#66668F] flex text-xs justify-between px-1">
               <div className="w-1/2 pr-3 pl-1 gap-2 flex justify-between">
-                {expandedId === id ? (
+                {expandedId === uniqueKey - `-${index}` ? (
                   <IoRemoveOutline
-                    onClick={() => toggleExpand(id)}
+                    onClick={() => toggleExpand(uniqueKey)}
                     className="bg-[#e6f1fa] text-[#0A78CD] rounded-full shrink-0 p-1 text-3xl cursor-pointer"
                   />
                 ) : (
                   <IoAddOutline
-                    onClick={() => toggleExpand(id)}
+                    onClick={() => toggleExpand(uniqueKey)}
                     className="bg-[#e6f1fa] text-[#0A78CD] rounded-full shrink-0 p-1 text-3xl cursor-pointer"
                   />
                 )}
@@ -111,7 +109,7 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
               </div>
             </div>
 
-            {expandedId === id && (
+            {expandedId === uniqueKey && (
               <div className="bg-[#ECF5FB] rounded-xl mt-2 overflow-hidden">
                 <div className="bg-[#C8D3DB] p-3">
                   <div className="flex items-center w-full justify-between px-2 ">
@@ -152,7 +150,6 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
                       <div className="w-1/2 flex flex-col justify-between gap-2 pb-4">
                         <div className="flex w-full items-center justify-between pb-3">
                           <p>{matchPercentage}</p>
-                          {/* Navigation icons for selecting/unselecting data */}
                           {selectedId === id ? (
                             <IoChevronBackOutline
                               onClick={() => handleSelectData(id)}
