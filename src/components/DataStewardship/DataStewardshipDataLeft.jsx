@@ -9,21 +9,22 @@ import { LuPhone } from "react-icons/lu";
 import { useState } from "react";
 import ExpandedItemsButton from "../Buttons/ExpandedItemsButton";
 
-const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
+const DataStewardshipDataLeft = ({ stewardshipData, onSelectData, onSelectExpandedData, }) => {
   const [expandedId, setExpandedId] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
 
   const toggleExpand = (uniqueKey) => {
     setExpandedId((prev) => (prev === uniqueKey ? null : uniqueKey));
+    onSelectExpandedData(prev === uniqueKey ? null : itemData)
   };
 
-  const handleSelectData = (id) => {
+  const handleSelectData = (id, matchId) => {
     if (selectedId === id) {
       setSelectedId(null);
       onSelectData(null);
     } else {
       setSelectedId(id);
-      onSelectData(id);
+      onSelectData({ id, matchId });
     }
   };
 
@@ -59,7 +60,6 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
         } = item;
 
         const uniqueKey = `${id}-${index}`
-        console.log(uniqueKey)
 
         return (
           <div key={uniqueKey} className="bg-white rounded-2xl p-3 my-2">
@@ -152,12 +152,12 @@ const DataStewardshipDataLeft = ({ stewardshipData, onSelectData }) => {
                           <p>{matchPercentage}</p>
                           {selectedId === id ? (
                             <IoChevronBackOutline
-                              onClick={() => handleSelectData(id)}
+                              onClick={() => handleSelectData(id, matchId)}
                               className="bg-[#0A78CD] text-white p-1 rounded-full shrink-0 text-3xl cursor-pointer"
                             />
                           ) : (
                             <IoChevronForwardOutline
-                              onClick={() => handleSelectData(id)}
+                              onClick={() => handleSelectData(id, matchId)}
                               className="bg-[#f0f0f4] text-[#66668F] p-1 rounded-full shrink-0 text-3xl cursor-pointer"
                             />
                           )}

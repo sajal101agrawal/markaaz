@@ -70,7 +70,7 @@ const DataStewardshipData = () => {
           const matchAddress = matchData.ADDRESS1 || matchData.ADDRESS2 || matchData.ADDRESS3 || "";
           const matchCompanyName = matchData.NAME || "";
 
-          console.log(item.MATCH_MKID_SOURCE_ID)
+          // console.log(item.MATCH_MKID_SOURCE_ID)
 
           // Return mapped data with both primary and match data
           return {
@@ -81,7 +81,7 @@ const DataStewardshipData = () => {
             companyName: companyName || matchCompanyName, // Default to match data company name if not available in primary
             address: address || matchAddress, // Use match data address if primary data address is missing
             phone,
-            matchAddress : matchAddress,
+            matchAddress: matchAddress,
             matchPercentage: `${item.BOOSTED_SCORE}%`,
             dataSource: item.PRIMARY_MKID_SRC,
             primaryData,
@@ -103,10 +103,11 @@ const DataStewardshipData = () => {
   }, []);
 
 
-  const handleSelectData = (id) => {
-    const selectedItem = stewardshipData.find((item) => item.id === id);
+  const handleSelectData = ({ id, matchId }) => {
+    const selectedItem = stewardshipData.find((item) => item.matchId === matchId);
     setSelectedData(selectedItem);
   };
+  console.log(selectedData)
 
   // Handle loading state
   if (loading) {
@@ -133,6 +134,7 @@ const DataStewardshipData = () => {
       <DataStewardshipDataLeft
         stewardshipData={stewardshipData}
         onSelectData={handleSelectData}
+        onSelectExpandedData={setSelectedData}
       />
       <DataStewardshipDataRight selectedData={selectedData} />
     </div>

@@ -7,6 +7,7 @@ import {
 import ExpandedItemsButton from "../Buttons/ExpandedItemsButton";
 
 const DataStewardshipDataRight = ({ selectedData }) => {
+  console.log("selected data", selectedData)
   if (!selectedData) {
     return (
       <div className="bg-[#F9FAFB] rounded-3xl h-[79%] w-[58%] flex flex-col items-center justify-center gap-6">
@@ -21,7 +22,9 @@ const DataStewardshipDataRight = ({ selectedData }) => {
   }
 
   // Extract fields from selected data
-  const { primaryData, matchData, dataSource, id } = selectedData;
+  const { primaryData, matchData, matchId, dataSource, id } = selectedData;
+
+  console.log(selectedData)
 
   // Determine data source prefix
   let prefix = "";
@@ -57,7 +60,7 @@ const DataStewardshipDataRight = ({ selectedData }) => {
       <div className="mt-1 mb-3 flex items-center justify-between">
         <div className="text-sm">
           <p className="">Source Information</p>
-          <p className="text-xs text-[#66668F] font-light">Markaaz ID: {id}</p>
+          <p className="text-xs text-[#66668F] font-light">Markaaz ID: {matchId}</p>
         </div>
         <div className="flex items-center gap-3">
           <div className="text-sm">
