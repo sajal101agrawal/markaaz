@@ -6,8 +6,9 @@ import {
 } from "react-icons/io5";
 import ExpandedItemsButton from "../Buttons/ExpandedItemsButton";
 
-const DataStewardshipDataRight = ({ selectedData }) => {
-  console.log("selected data", selectedData)
+// The main component to display match details
+const StewardshipRight = ({ selectedData }) => {
+  // If no data is selected, display the initial state
   if (!selectedData) {
     return (
       <div className="bg-[#F9FAFB] rounded-3xl h-[79%] w-[58%] flex flex-col items-center justify-center gap-6">
@@ -21,22 +22,16 @@ const DataStewardshipDataRight = ({ selectedData }) => {
     );
   }
 
-  // Extract fields from selected data
+  // Destructure selectedData object for easy access
   const { primaryData, matchData, matchId, dataSource, id } = selectedData;
 
-  console.log(selectedData)
-
-  // Determine data source prefix
+  // Determine data source prefix (EFX, CS, OC)
   let prefix = "";
-  if (dataSource === "EFX") {
-    prefix = "EFX_";
-  } else if (dataSource === "CS") {
-    prefix = "CS_";
-  } else if (dataSource === "OC") {
-    prefix = "OC_";
-  }
+  if (dataSource === "EFX") prefix = "EFX_";
+  else if (dataSource === "CS") prefix = "CS_";
+  else if (dataSource === "OC") prefix = "OC_";
 
-  // Prepare field values data
+  // Prepare field values by filtering keys based on the dataSource prefix
   const fieldValuesData = Object.keys(primaryData)
     .filter((key) => key.startsWith(prefix))
     .map((key) => ({
@@ -44,7 +39,7 @@ const DataStewardshipDataRight = ({ selectedData }) => {
       value: primaryData[key],
     }));
 
-  // Prepare company details (example fields)
+  // Prepare company details to display
   const companyDetails = [
     { field: "Company Number", value: primaryData[`${prefix}ID`] || "-" },
     { field: "Name", value: primaryData[`${prefix}NAME`] || "-" },
@@ -56,12 +51,17 @@ const DataStewardshipDataRight = ({ selectedData }) => {
 
   return (
     <div className="bg-[#F9FAFB] text-[#25245F] flex flex-col rounded-3xl h-[79%] w-[58%] px-5 py-4">
+      {/* Title Section */}
       <h1 className="font-medium">Match Details</h1>
+
+      {/* Match Header Section */}
       <div className="mt-1 mb-3 flex items-center justify-between">
         <div className="text-sm">
-          <p className="">Source Information</p>
+          <p>Source Information</p>
           <p className="text-xs text-[#66668F] font-light">Markaaz ID: {matchId}</p>
         </div>
+
+        {/* Navigation Buttons */}
         <div className="flex items-center gap-3">
           <div className="text-sm">
             <ExpandedItemsButton />
@@ -76,12 +76,17 @@ const DataStewardshipDataRight = ({ selectedData }) => {
           </button>
         </div>
       </div>
+
+      {/* Content Section */}
       <div className="flex h-full gap-4 overflow-hidden">
+
+        {/* Left Section: Field Values */}
         <div className="w-[45%] flex flex-col gap-2 h-full bg-white rounded-2xl p-2 overflow-y-auto">
           <div className="flex items-center w-full text-xs font-medium px-3">
             <h2 className="w-[40%]">Field</h2>
             <h2 className="w-[60%]">Value</h2>
           </div>
+          {/* Map through field values and display them */}
           {fieldValuesData.map((data) => (
             <div
               key={data.field}
@@ -92,6 +97,8 @@ const DataStewardshipDataRight = ({ selectedData }) => {
             </div>
           ))}
         </div>
+
+        {/* Right Section: Company Details */}
         <div className="w-[55%] h-full overflow-y-auto">
           <div className="bg-white rounded-2xl w-full h-[50%] p-2 flex flex-col gap-2 overflow-y-auto">
             <div className="w-full flex items-center text-xs font-medium px-3 text-[#25245F]">
@@ -99,6 +106,7 @@ const DataStewardshipDataRight = ({ selectedData }) => {
               <h2 className="w-[60%]">Value</h2>
             </div>
 
+            {/* Map through company details and display them */}
             {companyDetails.map((data) => (
               <div
                 key={data.field}
@@ -116,4 +124,4 @@ const DataStewardshipDataRight = ({ selectedData }) => {
   );
 };
 
-export default DataStewardshipDataRight;
+export default StewardshipRight;

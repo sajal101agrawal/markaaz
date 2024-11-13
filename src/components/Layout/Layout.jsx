@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
 import Nav from '../Navbar/Nav'
 import Search from '../Search/Search'
-import DataStewardshipData from '../DataStewardship/DataStewardshipData'
+import DataStewardshipData from '../DataStewardship/StewardshipParent'
 
 const Layout = () => (
   <div className="h-screen overflow-hidden relative">
